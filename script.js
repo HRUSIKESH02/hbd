@@ -345,24 +345,62 @@ function launchRocket() {
 }
 
 // Create confetti animation with pink colors
+// function createConfetti() {
+//     const colors = ['#FF1493', '#FF69B4', '#FFB6C1', '#FFC0CB', '#FFE4E1', '#FFF0F5'];
+//     const confetti = document.createElement('div');
+//     confetti.className = 'confetti';
+//     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+//     confetti.style.left = Math.random() * 100 + 'vw';
+//     confetti.style.top = -20 + 'px';
+//     confetti.style.width = Math.random() * 10 + 5 + 'px';
+//     confetti.style.height = Math.random() * 10 + 5 + 'px';
+//     confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+//     confetti.style.opacity = '1';
+//     confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+//     document.body.appendChild(confetti);
+    
+//     setTimeout(() => {
+//         confetti.remove();
+//     }, 5000);
+// }
+// Confetti Limit Fix and Mobile Optimization
+let confettiCount = 0;
+
 function createConfetti() {
+    // Skip confetti on very small screens
+    if (window.innerWidth < 480) return;
+
+    if (confettiCount >= 50) return; // Limit number of confetti
+
     const colors = ['#FF1493', '#FF69B4', '#FFB6C1', '#FFC0CB', '#FFE4E1', '#FFF0F5'];
     const confetti = document.createElement('div');
     confetti.className = 'confetti';
     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
     confetti.style.left = Math.random() * 100 + 'vw';
-    confetti.style.top = -20 + 'px';
+    confetti.style.top = '-20px';
     confetti.style.width = Math.random() * 10 + 5 + 'px';
     confetti.style.height = Math.random() * 10 + 5 + 'px';
     confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
     confetti.style.opacity = '1';
     confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+
     document.body.appendChild(confetti);
-    
+    confettiCount++;
+
     setTimeout(() => {
         confetti.remove();
+        confettiCount--;
     }, 5000);
 }
+
+// Example of safely calling createConfetti on answer click
+// document.querySelectorAll('.answer-option').forEach(option => {
+//     option.addEventListener('click', () => {
+//         createConfetti();
+//         // Other logic like showing next question
+//     });
+// });
+
 
 // Add fall animation to CSS
 const style = document.createElement('style');
