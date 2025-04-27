@@ -1052,346 +1052,346 @@ function animateNumber(element, finalValue) {
 }
 
 // Add the birthday card initialization function
-function initializeBirthdayCard() {
-    // Initialize fireworks
-    const canvas = document.getElementById("fireworksCanvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+// function initializeBirthdayCard() {
+//     // Initialize fireworks
+//     const canvas = document.getElementById("fireworksCanvas");
+//     const ctx = canvas.getContext("2d");
+//     canvas.width = window.innerWidth;
+//     canvas.height = window.innerHeight;
 
-    const GRAVITY = 0.05;
-    const FRICTION = 0.97;
-    const fireworks = [];
-    const particles = [];
+//     const GRAVITY = 0.05;
+//     const FRICTION = 0.97;
+//     const fireworks = [];
+//     const particles = [];
 
-    class Firework {
-        constructor(x, y, color) {
-            this.x = x;
-            this.y = canvas.height;
-            this.targetY = y;
-            this.speed = 6 + Math.random() * 2;
-            this.color = color;
-            this.exploded = false;
-        }
+//     class Firework {
+//         constructor(x, y, color) {
+//             this.x = x;
+//             this.y = canvas.height;
+//             this.targetY = y;
+//             this.speed = 6 + Math.random() * 2;
+//             this.color = color;
+//             this.exploded = false;
+//         }
 
-        update() {
-            if (!this.exploded) {
-                this.y -= this.speed;
-                if (this.y <= this.targetY) {
-                    this.explode();
-                    this.exploded = true;
-                }
-            }
-        }
+//         update() {
+//             if (!this.exploded) {
+//                 this.y -= this.speed;
+//                 if (this.y <= this.targetY) {
+//                     this.explode();
+//                     this.exploded = true;
+//                 }
+//             }
+//         }
 
-        draw() {
-            if (!this.exploded) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
+//         draw() {
+//             if (!this.exploded) {
+//                 ctx.beginPath();
+//                 ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+//                 ctx.fillStyle = this.color;
+//                 ctx.fill();
+//             }
+//         }
 
-        explode() {
-            const count = 50 + Math.random() * 50;
-            for (let i = 0; i < count; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 5 + 2;
-                const vx = Math.cos(angle) * speed;
-                const vy = Math.sin(angle) * speed;
-                particles.push(new Particle(this.x, this.y, vx, vy, this.color));
-            }
-        }
-    }
+//         explode() {
+//             const count = 50 + Math.random() * 50;
+//             for (let i = 0; i < count; i++) {
+//                 const angle = Math.random() * Math.PI * 2;
+//                 const speed = Math.random() * 5 + 2;
+//                 const vx = Math.cos(angle) * speed;
+//                 const vy = Math.sin(angle) * speed;
+//                 particles.push(new Particle(this.x, this.y, vx, vy, this.color));
+//             }
+//         }
+//     }
 
-    class Particle {
-        constructor(x, y, vx, vy, color) {
-            this.x = x;
-            this.y = y;
-            this.vx = vx;
-            this.vy = vy;
-            this.alpha = 1;
-            this.color = color;
-            this.size = 2 + Math.random() * 2;
-        }
+//     class Particle {
+//         constructor(x, y, vx, vy, color) {
+//             this.x = x;
+//             this.y = y;
+//             this.vx = vx;
+//             this.vy = vy;
+//             this.alpha = 1;
+//             this.color = color;
+//             this.size = 2 + Math.random() * 2;
+//         }
 
-        update() {
-            this.vx *= FRICTION;
-            this.vy *= FRICTION;
-            this.vy += GRAVITY;
-            this.x += this.vx;
-            this.y += this.vy;
-            this.alpha -= 0.015;
-        }
+//         update() {
+//             this.vx *= FRICTION;
+//             this.vy *= FRICTION;
+//             this.vy += GRAVITY;
+//             this.x += this.vx;
+//             this.y += this.vy;
+//             this.alpha -= 0.015;
+//         }
 
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-            ctx.restore();
-        }
-    }
+//         draw() {
+//             ctx.save();
+//             ctx.globalAlpha = this.alpha;
+//             ctx.beginPath();
+//             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+//             ctx.fillStyle = this.color;
+//             ctx.fill();
+//             ctx.restore();
+//         }
+//     }
 
-    function launchMultipleFireworks() {
-        const bursts = 4 + Math.floor(Math.random() * 4);
-        for (let i = 0; i < bursts; i++) {
-            const x = Math.random() * canvas.width;
-            const y = 150 + Math.random() * 200;
-            const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-            fireworks.push(new Firework(x, y, color));
-        }
-    }
+//     function launchMultipleFireworks() {
+//         const bursts = 4 + Math.floor(Math.random() * 4);
+//         for (let i = 0; i < bursts; i++) {
+//             const x = Math.random() * canvas.width;
+//             const y = 150 + Math.random() * 200;
+//             const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+//             fireworks.push(new Firework(x, y, color));
+//         }
+//     }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+//     function animate() {
+//         requestAnimationFrame(animate);
+//         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (Math.random() < 0.05) {
-            launchMultipleFireworks();
-        }
+//         if (Math.random() < 0.05) {
+//             launchMultipleFireworks();
+//         }
 
-        fireworks.forEach((fw, index) => {
-            fw.update();
-            fw.draw();
-            if (fw.exploded) fireworks.splice(index, 1);
-        });
+//         fireworks.forEach((fw, index) => {
+//             fw.update();
+//             fw.draw();
+//             if (fw.exploded) fireworks.splice(index, 1);
+//         });
 
-        particles.forEach((p, index) => {
-            p.update();
-            p.draw();
-            if (p.alpha <= 0) particles.splice(index, 1);
-        });
-    }
+//         particles.forEach((p, index) => {
+//             p.update();
+//             p.draw();
+//             if (p.alpha <= 0) particles.splice(index, 1);
+//         });
+//     }
 
-    // Start the fireworks animation
-    animate();
+//     // Start the fireworks animation
+//     animate();
 
-    // Handle window resize
-    window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
+//     // Handle window resize
+//     window.addEventListener("resize", () => {
+//         canvas.width = window.innerWidth;
+//         canvas.height = window.innerHeight;
+//     });
 
-    // Rest of the birthday card initialization code
-    const cardCelebration = document.querySelector('.card-celebration');
-    const colors = ['#ff6b6b', '#4ecdc4', '#ffd93d', '#ff8f8f', '#a8e6cf', '#ff6b6b', '#ffd93d'];
+//     // Rest of the birthday card initialization code
+//     const cardCelebration = document.querySelector('.card-celebration');
+//     const colors = ['#ff6b6b', '#4ecdc4', '#ffd93d', '#ff8f8f', '#a8e6cf', '#ff6b6b', '#ffd93d'];
     
-    // Add decorative elements to the card
-    const card = document.querySelector('.birthday-card');
+//     // Add decorative elements to the card
+//     const card = document.querySelector('.birthday-card');
     
-    // Add continuous rotation animation to the card
-    function rotateCard() {
-        card.style.animation = 'cardRotate 3s ease-in-out infinite';
-    }
+//     // Add continuous rotation animation to the card
+//     function rotateCard() {
+//         card.style.animation = 'cardRotate 3s ease-in-out infinite';
+//     }
     
-    // Start the continuous rotation animation
-    rotateCard();
+//     // Start the continuous rotation animation
+//     rotateCard();
     
-    // Create fireworks and celebration emojis
-    function createFirework() {
-        const firework = document.createElement('div');
-        firework.className = 'firework';
-        firework.style.left = `${Math.random() * 100}%`;
-        firework.style.top = `${Math.random() * 100}%`;
-        document.body.appendChild(firework);
+//     // Create fireworks and celebration emojis
+//     function createFirework() {
+//         const firework = document.createElement('div');
+//         firework.className = 'firework';
+//         firework.style.left = `${Math.random() * 100}%`;
+//         firework.style.top = `${Math.random() * 100}%`;
+//         document.body.appendChild(firework);
         
-        // Create particles for the firework
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'firework-particle';
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+//         // Create particles for the firework
+//         for (let i = 0; i < 20; i++) {
+//             const particle = document.createElement('div');
+//             particle.className = 'firework-particle';
+//             particle.style.background = colors[Math.floor(Math.random() * colors.length)];
             
-            // Random direction for each particle
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 50 + Math.random() * 100;
-            const x = Math.cos(angle) * distance;
-            const y = Math.sin(angle) * distance;
+//             // Random direction for each particle
+//             const angle = Math.random() * Math.PI * 2;
+//             const distance = 50 + Math.random() * 100;
+//             const x = Math.cos(angle) * distance;
+//             const y = Math.sin(angle) * distance;
             
-            particle.style.setProperty('--x', `${x}px`);
-            particle.style.setProperty('--y', `${y}px`);
+//             particle.style.setProperty('--x', `${x}px`);
+//             particle.style.setProperty('--y', `${y}px`);
             
-            firework.appendChild(particle);
-        }
+//             firework.appendChild(particle);
+//         }
         
-        setTimeout(() => {
-            firework.remove();
-        }, 2000);
-    }
+//         setTimeout(() => {
+//             firework.remove();
+//         }, 2000);
+//     }
     
-    // Create celebration elements at intervals
-    setInterval(createFirework, 500);
+//     // Create celebration elements at intervals
+//     setInterval(createFirework, 500);
     
-    // Add corner decorations
-    for (let i = 0; i < 4; i++) {
-        const corner = document.createElement('div');
-        corner.className = 'card-corner';
-        corner.style.position = 'absolute';
-        corner.style.width = '20px';
-        corner.style.height = '20px';
-        corner.style.borderRadius = '50%';
-        corner.style.background = `linear-gradient(45deg, ${colors[i % colors.length]}, ${colors[(i + 1) % colors.length]})`;
-        corner.style.boxShadow = `0 0 10px ${colors[i % colors.length]}`;
-        corner.style.animation = `pulse 3s infinite ${i * 0.5}s`;
+//     // Add corner decorations
+//     for (let i = 0; i < 4; i++) {
+//         const corner = document.createElement('div');
+//         corner.className = 'card-corner';
+//         corner.style.position = 'absolute';
+//         corner.style.width = '20px';
+//         corner.style.height = '20px';
+//         corner.style.borderRadius = '50%';
+//         corner.style.background = `linear-gradient(45deg, ${colors[i % colors.length]}, ${colors[(i + 1) % colors.length]})`;
+//         corner.style.boxShadow = `0 0 10px ${colors[i % colors.length]}`;
+//         corner.style.animation = `pulse 3s infinite ${i * 0.5}s`;
         
-        // Position corners
-        if (i === 0) {
-            corner.style.top = '10px';
-            corner.style.left = '10px';
-        } else if (i === 1) {
-            corner.style.top = '10px';
-            corner.style.right = '10px';
-        } else if (i === 2) {
-            corner.style.bottom = '10px';
-            corner.style.left = '10px';
-        } else {
-            corner.style.bottom = '10px';
-            corner.style.right = '10px';
-        }
+//         // Position corners
+//         if (i === 0) {
+//             corner.style.top = '10px';
+//             corner.style.left = '10px';
+//         } else if (i === 1) {
+//             corner.style.top = '10px';
+//             corner.style.right = '10px';
+//         } else if (i === 2) {
+//             corner.style.bottom = '10px';
+//             corner.style.left = '10px';
+//         } else {
+//             corner.style.bottom = '10px';
+//             corner.style.right = '10px';
+//         }
         
-        card.appendChild(corner);
-    }
+//         card.appendChild(corner);
+//     }
     
-    // Create a special effect for the friend's name
-    const friendName = document.querySelector('.friend-name');
-    if (friendName) {
-        // Add a special highlight effect on hover
-        friendName.addEventListener('mouseover', () => {
-            friendName.style.animation = 'none';
-            setTimeout(() => {
-                friendName.style.animation = 'glow 1s infinite alternate, gradientShift 3s ease infinite';
-            }, 10);
+//     // Create a special effect for the friend's name
+//     const friendName = document.querySelector('.friend-name');
+//     if (friendName) {
+//         // Add a special highlight effect on hover
+//         friendName.addEventListener('mouseover', () => {
+//             friendName.style.animation = 'none';
+//             setTimeout(() => {
+//                 friendName.style.animation = 'glow 1s infinite alternate, gradientShift 3s ease infinite';
+//             }, 10);
             
-            // Create extra celebration elements
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    createFirework();
-                }, i * 100);
-            }
-        });
-    }
+//             // Create extra celebration elements
+//             for (let i = 0; i < 15; i++) {
+//                 setTimeout(() => {
+//                     createFirework();
+//                 }, i * 100);
+//             }
+//         });
+//     }
     
-    // Create stars
-    const starsContainer = document.querySelector('.stars');
-    for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        star.style.animationDelay = `${Math.random() * 3}s`;
-        starsContainer.appendChild(star);
-    }
+//     // Create stars
+//     const starsContainer = document.querySelector('.stars');
+//     for (let i = 0; i < 100; i++) {
+//         const star = document.createElement('div');
+//         star.className = 'star';
+//         star.style.left = `${Math.random() * 100}%`;
+//         star.style.top = `${Math.random() * 100}%`;
+//         star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+//         star.style.animationDelay = `${Math.random() * 3}s`;
+//         starsContainer.appendChild(star);
+//     }
     
-    // Create shooting stars
-    const shootingStarsContainer = document.querySelector('.shooting-stars');
-    function createShootingStar() {
-        const star = document.createElement('div');
-        star.className = 'shooting-star';
-        star.style.top = `${Math.random() * 50}%`;
-        star.style.left = `${Math.random() * 30}%`;
-        star.style.animationDuration = `${Math.random() * 2 + 2}s`;
-        shootingStarsContainer.appendChild(star);
+//     // Create shooting stars
+//     const shootingStarsContainer = document.querySelector('.shooting-stars');
+//     function createShootingStar() {
+//         const star = document.createElement('div');
+//         star.className = 'shooting-star';
+//         star.style.top = `${Math.random() * 50}%`;
+//         star.style.left = `${Math.random() * 30}%`;
+//         star.style.animationDuration = `${Math.random() * 2 + 2}s`;
+//         shootingStarsContainer.appendChild(star);
         
-        setTimeout(() => {
-            star.remove();
-        }, 4000);
-    }
+//         setTimeout(() => {
+//             star.remove();
+//         }, 4000);
+//     }
     
-    // Create shooting stars at intervals
-    setInterval(createShootingStar, 3000);
+//     // Create shooting stars at intervals
+//     setInterval(createShootingStar, 3000);
     
-    // Create balloons
-    const balloonsContainer = document.querySelector('.balloons');
-    function createBalloon() {
-        const balloon = document.createElement('div');
-        balloon.className = 'balloon';
-        balloon.style.left = `${Math.random() * 100}%`;
-        balloon.style.animationDelay = `${Math.random() * 5}s`;
-        balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-        balloon.style.transform = `scale(${0.8 + Math.random() * 0.4})`;
-        balloonsContainer.appendChild(balloon);
+//     // Create balloons
+//     const balloonsContainer = document.querySelector('.balloons');
+//     function createBalloon() {
+//         const balloon = document.createElement('div');
+//         balloon.className = 'balloon';
+//         balloon.style.left = `${Math.random() * 100}%`;
+//         balloon.style.animationDelay = `${Math.random() * 5}s`;
+//         balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+//         balloon.style.transform = `scale(${0.8 + Math.random() * 0.4})`;
+//         balloonsContainer.appendChild(balloon);
         
-        setTimeout(() => {
-            balloon.remove();
-        }, 6000);
-    }
+//         setTimeout(() => {
+//             balloon.remove();
+//         }, 6000);
+//     }
     
-    // Create initial set of balloons
-    for (let i = 0; i < 15; i++) {
-        setTimeout(() => {
-            createBalloon();
-        }, i * 400);
-    }
+//     // Create initial set of balloons
+//     for (let i = 0; i < 15; i++) {
+//         setTimeout(() => {
+//             createBalloon();
+//         }, i * 400);
+//     }
     
-    // Continuously create new balloons
-    setInterval(createBalloon, 1000);
+//     // Continuously create new balloons
+//     setInterval(createBalloon, 1000);
     
-    // Create confetti
-    const confettiContainer = document.querySelector('.confetti-container');
-    function createConfetti() {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.width = `${Math.random() * 10 + 5}px`;
-        confetti.style.height = `${Math.random() * 10 + 5}px`;
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        confetti.style.opacity = Math.random() * 0.5 + 0.5;
-        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+//     // Create confetti
+//     const confettiContainer = document.querySelector('.confetti-container');
+//     function createConfetti() {
+//         const confetti = document.createElement('div');
+//         confetti.className = 'confetti';
+//         confetti.style.left = `${Math.random() * 100}%`;
+//         confetti.style.width = `${Math.random() * 10 + 5}px`;
+//         confetti.style.height = `${Math.random() * 10 + 5}px`;
+//         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+//         confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+//         confetti.style.opacity = Math.random() * 0.5 + 0.5;
+//         confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
         
-        confettiContainer.appendChild(confetti);
+//         confettiContainer.appendChild(confetti);
         
-        setTimeout(() => {
-            confetti.remove();
-        }, 5000);
-    }
+//         setTimeout(() => {
+//             confetti.remove();
+//         }, 5000);
+//     }
     
-    // Create confetti at intervals
-    setInterval(createConfetti, 300);
+//     // Create confetti at intervals
+//     setInterval(createConfetti, 300);
     
-    // Add click effect to the card
-    card.addEventListener('click', (event) => {
-        // Create a ripple effect
-        const ripple = document.createElement('div');
-        ripple.className = 'ripple';
-        ripple.style.left = `${event.offsetX}px`;
-        ripple.style.top = `${event.offsetY}px`;
-        card.appendChild(ripple);
+//     // Add click effect to the card
+//     card.addEventListener('click', (event) => {
+//         // Create a ripple effect
+//         const ripple = document.createElement('div');
+//         ripple.className = 'ripple';
+//         ripple.style.left = `${event.offsetX}px`;
+//         ripple.style.top = `${event.offsetY}px`;
+//         card.appendChild(ripple);
         
-        // Create extra celebration elements on click
-        for (let i = 0; i < 10; i++) {
-            setTimeout(() => {
-                createFirework();
-            }, i * 100);
-        }
+//         // Create extra celebration elements on click
+//         for (let i = 0; i < 10; i++) {
+//             setTimeout(() => {
+//                 createFirework();
+//             }, i * 100);
+//         }
         
-        setTimeout(() => {
-            ripple.remove();
-        }, 1000);
-    });
+//         setTimeout(() => {
+//             ripple.remove();
+//         }, 1000);
+//     });
     
-    // Create celebration emojis
-    function createCelebrationEmoji() {
-        const emojis = ['🎊', '🎉', '🎈', '🎂', '🎁', '✨', '🌟', '💫', '🎆', '🎇'];
-        const emoji = document.createElement('div');
-        emoji.className = 'celebration-emoji';
-        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.style.left = `${Math.random() * 100}%`;
-        emoji.style.top = `${Math.random() * 100}%`;
-        emoji.style.fontSize = `${Math.random() * 30 + 20}px`;
-        document.body.appendChild(emoji);
+    // // Create celebration emojis
+    // function createCelebrationEmoji() {
+    //     const emojis = ['🎊', '🎉', '🎈', '🎂', '🎁', '✨', '🌟', '💫', '🎆', '🎇'];
+    //     const emoji = document.createElement('div');
+    //     emoji.className = 'celebration-emoji';
+    //     emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    //     emoji.style.left = `${Math.random() * 100}%`;
+    //     emoji.style.top = `${Math.random() * 100}%`;
+    //     emoji.style.fontSize = `${Math.random() * 30 + 20}px`;
+    //     document.body.appendChild(emoji);
         
-        setTimeout(() => {
-            emoji.remove();
-        }, 3000);
-    }
+    //     setTimeout(() => {
+    //         emoji.remove();
+    //     }, 3000);
+    // }
     
     // Create celebration emojis at intervals
-    setInterval(createCelebrationEmoji, 300);
+    // setInterval(createCelebrationEmoji, 300);
     
     // Add background color animation
     let hue = 0;
@@ -1446,45 +1446,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Function to create sparkles around the cake
-function createSparkles(element) {
-    const sparkleCount = 15;
-    const rect = element.getBoundingClientRect();
+// function createSparkles(element) {
+//     const sparkleCount = 15;
+//     const rect = element.getBoundingClientRect();
     
-    for (let i = 0; i < sparkleCount; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.position = 'absolute';
-        sparkle.style.width = '10px';
-        sparkle.style.height = '10px';
-        sparkle.style.backgroundColor = '#ffeb3b';
-        sparkle.style.borderRadius = '50%';
-        sparkle.style.boxShadow = '0 0 10px #ffeb3b, 0 0 20px #ffeb3b';
-        sparkle.style.left = Math.random() * rect.width + 'px';
-        sparkle.style.top = Math.random() * rect.height + 'px';
-        sparkle.style.opacity = '0';
-        sparkle.style.animation = `sparkle ${Math.random() * 2 + 1}s infinite`;
-        element.appendChild(sparkle);
-    }
+//     for (let i = 0; i < sparkleCount; i++) {
+//         const sparkle = document.createElement('div');
+//         sparkle.className = 'sparkle';
+//         sparkle.style.position = 'absolute';
+//         sparkle.style.width = '10px';
+//         sparkle.style.height = '10px';
+//         sparkle.style.backgroundColor = '#ffeb3b';
+//         sparkle.style.borderRadius = '50%';
+//         sparkle.style.boxShadow = '0 0 10px #ffeb3b, 0 0 20px #ffeb3b';
+//         sparkle.style.left = Math.random() * rect.width + 'px';
+//         sparkle.style.top = Math.random() * rect.height + 'px';
+//         sparkle.style.opacity = '0';
+//         sparkle.style.animation = `sparkle ${Math.random() * 2 + 1}s infinite`;
+//         element.appendChild(sparkle);
+//     }
     
-    // Add sparkle animation to CSS if not already added
-    if (!document.querySelector('#sparkle-style')) {
-        const sparkleStyle = document.createElement('style');
-        sparkleStyle.id = 'sparkle-style';
-        sparkleStyle.textContent = `
-            @keyframes sparkle {
-                0%, 100% {
-                    opacity: 0;
-                    transform: scale(0);
-                }
-                50% {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-            }
-        `;
-        document.head.appendChild(sparkleStyle);
-    }
-}
+//     // Add sparkle animation to CSS if not already added
+//     if (!document.querySelector('#sparkle-style')) {
+//         const sparkleStyle = document.createElement('style');
+//         sparkleStyle.id = 'sparkle-style';
+//         sparkleStyle.textContent = `
+//             @keyframes sparkle {
+//                 0%, 100% {
+//                     opacity: 0;
+//                     transform: scale(0);
+//                 }
+//                 50% {
+//                     opacity: 1;
+//                     transform: scale(1);
+//                 }
+//             }
+//         `;
+//         document.head.appendChild(sparkleStyle);
+//     }
+// }
 
 document.addEventListener('DOMContentLoaded', function() {
     // Add click handler for surprise button
